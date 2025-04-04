@@ -86,24 +86,26 @@ def solve_asp(
         # TODO try clasp parrallel-mode f"--parallel-mode={os.cpu_count()}",
         str(max_output),
     ]
-    if method != "conj" and method != "conj-c":
-        args += [
-            "--heuristic=Domain",  # maximal w.r.t. inclusion
-            "--enum-mod=domRec",
-            "--dom-mod=3,16",
-        ]
-    if method == "conj-c":
-        args += [
-            "--heuristic=Domain",  # minimal w.r.t. inclusion
-            "--enum-mod=domRec",
-            "--dom-mod=5,16",
-        ]
-    if method == "conj" and computation == "max":
-        args += [
-            "--heuristic=Domain",  # maximal w.r.t. inclusion
-            "--enum-mod=domRec",
-            "--dom-mod=3,16",
-        ]
+    if computation != "all":
+        # When computing all trap spaces, we don't want to add any special arguments...
+        if method != "conj" and method != "conj-c":
+            args += [
+                "--heuristic=Domain",  # maximal w.r.t. inclusion
+                "--enum-mod=domRec",
+                "--dom-mod=3,16",
+            ]
+        if method == "conj-c":
+            args += [
+                "--heuristic=Domain",  # minimal w.r.t. inclusion
+                "--enum-mod=domRec",
+                "--dom-mod=5,16",
+            ]
+        if method == "conj" and computation == "max":
+            args += [
+                "--heuristic=Domain",  # maximal w.r.t. inclusion
+                "--enum-mod=domRec",
+                "--dom-mod=3,16",
+            ]
     args += [
         "--outf=2",  # json output
         f"--time-limit={time_limit}",
@@ -300,7 +302,7 @@ def main():
     parser.add_argument(
         "-c",
         "--computation",
-        choices=["min", "max", "fix"],
+        choices=["min", "max", "fix", "all"],
         default="min",
         type=str,
         help="Computation option.",
