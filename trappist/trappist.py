@@ -336,6 +336,7 @@ def main():
                 method=args.solver,
                 debug=args.debug,
                 nprocs=args.parallel,
+                computation=args.computation,
             )
         )
     except StopIteration:
